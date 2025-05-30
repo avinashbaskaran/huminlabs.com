@@ -17,6 +17,7 @@
       border: 1px solid #333;
       max-width: 600px;
       margin: auto;
+      margin-bottom: 2rem;
     }
     h1, h2 {
       text-align: center;
@@ -24,16 +25,55 @@
     p {
       font-size: 1.1rem;
     }
+    .requirement-section {
+      display: none;
+      background-color: #111;
+      padding: 1.5rem;
+      border: 1px solid #333;
+      max-width: 600px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+    .requirement-section.active {
+      display: block;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+    }
   </style>
 </head>
 <body>
+  
   <h1>Getting Started</h1>
+  <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+    <small>scroll to continue</small>
+  </div>
   <div class="summary-box">
     <h2>Your Device Summary</h2>
     <p><strong>Stage:</strong> <span id="stage"></span></p>
     <p><strong>Function:</strong> <span id="function"></span></p>
     <p><strong>Risk Level:</strong> <span id="risk"></span></p>
     <p><strong>Estimated Classification:</strong> <span id="classification"></span></p>
+  </div>
+  
+
+
+  <div id="requirement-container"></div>
+  <div class="nav-buttons">
+    <button onclick="previousRequirement()">Previous</button>
+    <button onclick="nextRequirement()">Next</button>
   </div>
 
   <script>
@@ -42,10 +82,166 @@
       return urlParams.get(key) || 'Not provided';
     }
 
-    document.getElementById("stage").textContent = getParam("stage");
-    document.getElementById("function").textContent = getParam("function");
-    document.getElementById("risk").textContent = getParam("risk");
-    document.getElementById("classification").textContent = getParam("classification");
+    const stage = getParam("stage");
+    const func = getParam("function");
+    const risk = getParam("risk");
+    const classification = getParam("classification");
+
+    document.getElementById("stage").textContent = stage;
+    document.getElementById("function").textContent = func;
+    document.getElementById("risk").textContent = risk;
+    document.getElementById("classification").textContent = classification;
+
+const requirements = {
+  "Class I": [
+    {
+      title: "Exempt or 510(k) pathway",
+      blurb: "Some Class I devices don’t need premarket review; others must file a 510(k) showing they’re as safe and effective as an existing product."
+    },
+    {
+      title: "Establishment Registration & Listing",
+      blurb: "You must tell the FDA who you are and what you’re selling by registering your company and listing the device."
+    },
+    {
+      title: "General Controls",
+      blurb: "Basic rules that apply to all devices, like good manufacturing practices, labeling, and recordkeeping."
+    },
+    {
+      title: "Labeling compliance (21 CFR 801)",
+      blurb: "Labels must include specific information like device name, intended use, and manufacturer details."
+    },
+    {
+      title: "Unique Device Identifier (UDI)",
+      blurb: "Your device must have a scannable code to help track it through distribution and use."
+    },
+    {
+      title: "Quality System Regulation (QSR) - some exemptions",
+      blurb: "You need processes to ensure quality, but many Class I devices don’t need full compliance."
+    },
+    {
+      title: "Risk Management (recommended)",
+      blurb: "Even if not required, it’s smart to identify and minimize risks using standard processes like ISO 14971."
+    },
+    {
+      title: "Postmarket surveillance reporting (MDR)",
+      blurb: "You must report problems, malfunctions, or injuries involving your device after it’s on the market."
+    }
+  ],
+  "Class II": [
+    {
+      title: "510(k) clearance required",
+      blurb: "You must prove to the FDA that your device is similar to one already on the market."
+    },
+    {
+      title: "Establishment Registration & Listing",
+      blurb: "Same as Class I—register your company and list your product with the FDA."
+    },
+    {
+      title: "Design Controls (21 CFR 820)",
+      blurb: "You need to document the full design process to show it’s been controlled, reviewed, and verified properly."
+    },
+    {
+      title: "Labeling compliance (21 CFR 801)",
+      blurb: "Your label must be clear, accurate, and compliant with FDA rules."
+    },
+    {
+      title: "Unique Device Identifier (UDI)",
+      blurb: "Track your device with a UDI for recalls and inventory management."
+    },
+    {
+      title: "Risk Management (ISO 14971)",
+      blurb: "A formal process for identifying and controlling risks throughout the device lifecycle."
+    },
+    {
+      title: "Biocompatibility Testing (if applicable)",
+      blurb: "If your device touches the body, you must prove it’s safe and doesn’t cause allergic reactions or toxicity."
+    },
+    {
+      title: "Software Validation (if applicable)",
+      blurb: "Any software in or with the device must be tested to confirm it works correctly and safely."
+    },
+    {
+      title: "Sterilization Validation (if sterile)",
+      blurb: "You must prove your sterilization method actually sterilizes and doesn’t damage the device."
+    },
+    {
+      title: "Postmarket Surveillance",
+      blurb: "You must monitor the device after launch, collecting data to ensure it remains safe and effective."
+    }
+  ],
+  "Class III": [
+    {
+      title: "Premarket Approval (PMA) pathway",
+      blurb: "You need full FDA review, including clinical trial data, to prove your device is safe and effective."
+    },
+    {
+      title: "Clinical Trials / IDE required",
+      blurb: "Before testing in humans, you need FDA approval to start clinical studies."
+    },
+    {
+      title: "Establishment Registration & Listing",
+      blurb: "Same as lower classes—register your company and list your device."
+    },
+    {
+      title: "Design Controls (21 CFR 820)",
+      blurb: "Required for every step of the device design, with detailed records and traceability."
+    },
+    {
+      title: "Labeling compliance (21 CFR 801)",
+      blurb: "Must include all required information, especially around risks and instructions for use."
+    },
+    {
+      title: "Unique Device Identifier (UDI)",
+      blurb: "A scannable tracking code is mandatory."
+    },
+    {
+      title: "Full Risk Management (ISO 14971)",
+      blurb: "A thorough, documented risk analysis is required for high-risk devices."
+    },
+    {
+      title: "Biocompatibility and Sterilization Validation",
+      blurb: "You must show that materials are safe for the body and that sterilization is reliable."
+    },
+    {
+      title: "Postmarket Surveillance and FDA Inspections",
+      blurb: "You must continue tracking safety and be ready for FDA inspections at any time."
+    },
+    {
+      title: "Hospital Tech Committee and GPO inclusion",
+      blurb: "For hospital use, your device may need approval by purchasing committees and inclusion in group purchasing contracts."
+    }
+  ]
+};
+
+
+    const container = document.getElementById("requirement-container");
+    const reqs = requirements[classification] || ["No requirements found for this classification."];
+
+    let currentReqIndex = 0;
+    function showRequirement(index) {
+      container.innerHTML = '';
+      const section = document.createElement("div");
+      section.className = "requirement-section active";
+      section.innerHTML = `
+  <h2>Requirement ${index + 1} of ${reqs.length}</h2>
+  <p><strong>${reqs[index].title}</strong></p>
+  <p style="font-size: 0.95rem; color: #ccc;">${reqs[index].blurb}</p>
+`;
+
+      container.appendChild(section);
+    }
+
+    function nextRequirement() {
+      if (currentReqIndex < reqs.length - 1) currentReqIndex++;
+      showRequirement(currentReqIndex);
+    }
+
+    function previousRequirement() {
+      if (currentReqIndex > 0) currentReqIndex--;
+      showRequirement(currentReqIndex);
+    }
+
+    showRequirement(currentReqIndex);
   </script>
 </body>
 </html>
