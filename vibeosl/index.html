@@ -11,7 +11,7 @@
       background-color: black;
       color: white;
       font-family: Arial, sans-serif;
-      overflow: hidden; /* Prevent native scroll */
+      overflow: hidden;
     }
 
     .section {
@@ -20,21 +20,52 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      scroll-snap-align: start;
-    }
-
-    .container {
-      width: 80%;
-      max-width: 600px;
+      padding: 2rem;
       text-align: center;
     }
 
+    .container {
+      max-width: 700px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #444;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    button {
+      margin: 1rem 0.5rem 0 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+    }
+
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
     input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
       width: 100%;
       height: 8px;
-      border-radius: 5px;
       background: #555;
+      border-radius: 5px;
       outline: none;
+      cursor: pointer;
     }
 
     input[type=range]::-webkit-slider-thumb {
@@ -44,6 +75,17 @@
       height: 20px;
       background: #00ffcc;
       border-radius: 50%;
+      margin-top: -6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #00ffcc;
+      border-radius: 50%;
+      border: none;
       cursor: pointer;
     }
 
@@ -53,97 +95,142 @@
       color: #00ffcc;
     }
 
-    button {
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      background-color: #00ffcc;
-      border: none;
-      border-radius: 5px;
+    .radio-group {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .radio-group label {
+      font-size: 1.2rem;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #00ddbb;
+    .output-box {
+      background-color: #111;
+      padding: 1rem;
+      border: 1px solid #333;
+      margin-top: 1rem;
     }
-
-    input[type=range] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 8px;
-  background: #555;
-  border-radius: 5px;
-  outline: none;
-  cursor: pointer;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #00ffcc;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  margin-top: -6px; /* aligns thumb vertically */
-}
-
-input[type=range]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: #00ffcc;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-}
-
-
   </style>
 </head>
 <body>
 
-  <!-- Section 1 -->
+  <!-- Section 0: Landing -->
+  <div class="section" id="section0">
+    <div class="container">
+      <h1>Let's pick the right license(s) for your project.</h1>
+      <p>This table lists open licenses for hardware and software. We’ll help you choose the best match.</p>
+      <div style="max-height: 50vh; overflow-y: auto; border: 1px solid #333; padding: 1rem; background-color: #111;">
+        <table>
+          <thead>
+            <tr>
+              <th>License</th>
+              <th>Type</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>CERN-OHL-P</td><td>Hardware</td><td>Permissive hardware license</td></tr>
+            <tr><td>CERN-OHL-W</td><td>Hardware</td><td>Weak share-alike</td></tr>
+            <tr><td>CERN-OHL-S</td><td>Hardware</td><td>Strong share-alike</td></tr>
+            <tr><td>Solderpad</td><td>Hardware</td><td>Apache-style license for hardware</td></tr>
+            <tr><td>TAPR OHL</td><td>Hardware</td><td>Early open hardware license</td></tr>
+            <tr><td>MIT</td><td>Software</td><td>Highly permissive, widely used</td></tr>
+            <tr><td>Apache 2.0</td><td>Software</td><td>Permissive + patent grant</td></tr>
+            <tr><td>GPLv3</td><td>Software</td><td>Strong share-alike</td></tr>
+            <tr><td>LGPL</td><td>Software</td><td>Weak copyleft (for libraries)</td></tr>
+            <tr><td>CC BY</td><td>Docs/Assets</td><td>Attribution required</td></tr>
+            <tr><td>CC BY-SA</td><td>Docs/Assets</td><td>Attribution + share-alike</td></tr>
+            <tr><td>CC0</td><td>Docs/Assets</td><td>Public domain dedication</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button onclick="scrollToSection('section1')">Next</button>
+    </div>
+  </div>
+
+  <!-- Section 1: Project Type Selection -->
   <div class="section" id="section1">
+    <div class="container">
+      <h2>What kind of project are you working on?</h2>
+      <div class="radio-group">
+        <label><input type="radio" name="projectType" value="hardware" onchange="enableNext()"> Hardware</label>
+        <label><input type="radio" name="projectType" value="software" onchange="enableNext()"> Software</label>
+        <label><input type="radio" name="projectType" value="both" onchange="enableNext()"> Both</label>
+      </div>
+      <button id="nextButton1" onclick="scrollToSection('section2')" disabled>Next</button>
+    </div>
+  </div>
+
+  <!-- Section 2: Question 1 -->
+  <div class="section" id="section2">
     <div class="container">
       <label for="engagementSlider">How much does audience engagement matter to you?</label>
       <input type="range" id="engagementSlider" min="0" max="10" step="1" value="5" />
       <div class="value-display">Current value: <span id="sliderValue">5</span></div>
-      <button onclick="scrollToSection('section2')">Next</button>
+      <button onclick="scrollToSection('section3')">Next</button>
+      <button onclick="scrollToSection('section1')">Previous</button>
     </div>
   </div>
 
-  <!-- Section 2 -->
-  <div class="section" id="section2">
+  <!-- Section 3: Transition Section -->
+  <div class="section" id="section3">
     <div class="container">
-      <h2>Next Section Placeholder</h2>
-      <p>This is where the next set of inputs or content would go.</p>
-      <button onclick="scrollToSection('section1')">Previous</button>
+      <h2>Ready?</h2>
+      <p>View your license strategy based on your inputs so far.</p>
+      <button onclick="scrollToSection('section4')">My License Strategy</button>
+    </div>
+  </div>
+
+  <!-- Section 4: Summary & Actions -->
+  <div class="section" id="section4">
+    <div class="container">
+      <h2>My License Strategy</h2>
+      <div class="output-box" id="resultsBox"></div>
+      <button onclick="alert('Coming soon: Export or apply strategy')">Implement My Licensing Strategy</button>
+      <button onclick="scrollToSection('section1')">Revise Responses</button>
     </div>
   </div>
 
   <script>
     const slider = document.getElementById("engagementSlider");
     const valueDisplay = document.getElementById("sliderValue");
+    const nextButton = document.getElementById("nextButton1");
 
     slider.addEventListener("input", () => {
       valueDisplay.textContent = slider.value;
     });
 
-    function scrollToSection(sectionId) {
-      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    function scrollToSection(id) {
+      if (id === 'section4') displayResults();
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
     }
 
-    // Disable mouse and touch scrolling
-    window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-    window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-    window.addEventListener('keydown', e => {
+    function enableNext() {
+      nextButton.disabled = false;
+    }
+
+    function displayResults() {
+      const type = document.querySelector('input[name="projectType"]:checked')?.value || 'None';
+      const engagement = slider.value;
+      const box = document.getElementById("resultsBox");
+      box.innerHTML = `
+        <p><strong>Project Type:</strong> ${type}</p>
+        <p><strong>Audience Engagement Importance:</strong> ${engagement}/10</p>
+        <p><em>(Future versions will generate a license bundle here.)</em></p>
+      `;
+    }
+
+    // Lock native scrolling
+    window.addEventListener("wheel", e => e.preventDefault(), { passive: false });
+    window.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
+    window.addEventListener("keydown", e => {
       if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' '].includes(e.key)) {
         e.preventDefault();
       }
     });
   </script>
-
 </body>
 </html>
