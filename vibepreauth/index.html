@@ -44,6 +44,7 @@
       justify-content: center;
       gap: 2rem;
       margin-top: 1rem;
+      flex-wrap: wrap;
     }
     .radio-group label {
       font-size: 1.2rem;
@@ -54,21 +55,22 @@
       padding: 1rem;
       border: 1px solid #333;
       margin-top: 1rem;
+      text-align: left;
     }
   </style>
 </head>
 <body>
   <div class="section active" id="section0">
     <div class="container">
-      <h1>Vibe-Preauth: Get FDA Ready</h1>
-      <p>Let’s figure out the certification pathway for your healthware project.</p>
+      <h1>Vibe-Preauth: Your Free FDA Pre-Consult</h1>
+      <p>Answer a few questions to get a tailored 10-step FDA preparation roadmap for your healthware device.</p>
       <button onclick="goTo(1)">Start</button>
     </div>
   </div>
 
   <div class="section" id="section1">
     <div class="container">
-      <h2>What stage is your project at?</h2>
+      <h2>What is your project stage?</h2>
       <div class="radio-group">
         <label><input type="radio" name="stage" value="proposed" onchange="enableNext()"> Proposed</label>
         <label><input type="radio" name="stage" value="inprogress" onchange="enableNext()"> In Progress</label>
@@ -80,10 +82,12 @@
 
   <div class="section" id="section2">
     <div class="container">
-      <h2>Is your device intended for human use?</h2>
+      <h2>What is the device's function?</h2>
       <div class="radio-group">
-        <label><input type="radio" name="humanUse" value="yes" onchange="enableNext()"> Yes</label>
-        <label><input type="radio" name="humanUse" value="no" onchange="enableNext()"> No</label>
+        <label><input type="radio" name="function" value="monitor" onchange="enableNext()"> Monitor/Vital Signs</label>
+        <label><input type="radio" name="function" value="diagnose" onchange="enableNext()"> Diagnose/Analyze</label>
+        <label><input type="radio" name="function" value="treat" onchange="enableNext()"> Treat/Intervene</label>
+        <label><input type="radio" name="function" value="assist" onchange="enableNext()"> Assist/Support</label>
       </div>
       <button id="next2" onclick="goTo(3)" disabled>Next</button>
       <button onclick="goTo(1)">Previous</button>
@@ -92,11 +96,11 @@
 
   <div class="section" id="section3">
     <div class="container">
-      <h2>Is your device therapeutic, diagnostic, or assistive?</h2>
+      <h2>How risky is the use of this device?</h2>
       <div class="radio-group">
-        <label><input type="radio" name="type" value="therapeutic" onchange="enableNext()"> Therapeutic</label>
-        <label><input type="radio" name="type" value="diagnostic" onchange="enableNext()"> Diagnostic</label>
-        <label><input type="radio" name="type" value="assistive" onchange="enableNext()"> Assistive</label>
+        <label><input type="radio" name="risk" value="low" onchange="enableNext()"> Low (non-invasive, over-the-counter)</label>
+        <label><input type="radio" name="risk" value="moderate" onchange="enableNext()"> Moderate (requires physician use)</label>
+        <label><input type="radio" name="risk" value="high" onchange="enableNext()"> High (life support, implants)</label>
       </div>
       <button id="next3" onclick="goTo(4)" disabled>Next</button>
       <button onclick="goTo(2)">Previous</button>
@@ -105,22 +109,9 @@
 
   <div class="section" id="section4">
     <div class="container">
-      <h2>Is there an FDA-registered predicate device that performs a similar function?</h2>
-      <div class="radio-group">
-        <label><input type="radio" name="predicate" value="yes" onchange="enableNext()"> Yes</label>
-        <label><input type="radio" name="predicate" value="no" onchange="enableNext()"> No</label>
-        <label><input type="radio" name="predicate" value="idk" onchange="enableNext()"> Don't Know</label>
-      </div>
-      <button id="next4" onclick="goTo(5)" disabled>Next</button>
-      <button onclick="goTo(3)">Previous</button>
-    </div>
-  </div>
-
-  <div class="section" id="section5">
-    <div class="container">
-      <h2>Your Preauthorization Path</h2>
+      <h2>Your 10-Step FDA Plan</h2>
       <div class="output-box" id="output"></div>
-      <button onclick="goTo(1)">Revise Responses</button>
+      <button onclick="goTo(1)">Start Over</button>
     </div>
   </div>
 
@@ -132,8 +123,7 @@
       sections[currentIndex].classList.remove("active");
       sections[index].classList.add("active");
       currentIndex = index;
-
-      if (index === 5) displayOutput();
+      if (index === 4) displayOutput();
     }
 
     function enableNext() {
@@ -144,24 +134,59 @@
 
     function displayOutput() {
       const stage = document.querySelector("input[name='stage']:checked")?.value;
-      const humanUse = document.querySelector("input[name='humanUse']:checked")?.value;
-      const type = document.querySelector("input[name='type']:checked")?.value;
-      const predicate = document.querySelector("input[name='predicate']:checked")?.value;
+      const func = document.querySelector("input[name='function']:checked")?.value;
+      const risk = document.querySelector("input[name='risk']:checked")?.value;
 
-      let result = "";
-      if (humanUse === "no") {
-        result = "→ You may not require FDA certification if the device is not intended for human use. Still consider good design practices and ethical review.";
-      } else if (predicate === "yes") {
-        result = "→ Consider pursuing a 510(k) clearance by identifying the predicate device and demonstrating substantial equivalence.";
+      let classification = risk === "low" ? "Class I" : risk === "moderate" ? "Class II" : "Class III";
+      let steps = [];
+
+      if (stage === "proposed") {
+        steps = [
+          "Define the intended use and indications for use.",
+          "Research potential predicate devices.",
+          "Estimate device classification (" + classification + ").",
+          "Begin preliminary risk analysis.",
+          "Sketch design concept and assess key components.",
+          "Check if the device may qualify for exemptions.",
+          "Prepare initial project plan with regulatory milestones.",
+          "Document user needs and environment of use.",
+          "Initiate usability and human factors design considerations.",
+          "Consult FDA resources or request a Q-submission meeting."
+        ];
+      } else if (stage === "inprogress") {
+        steps = [
+          "Complete detailed design documentation and design history file (DHF).",
+          "Perform risk management per ISO 14971.",
+          "Conduct bench and verification testing.",
+          "Draft instructions for use and preliminary labeling.",
+          "Set up design controls and traceability matrix.",
+          "Begin identifying regulatory submission content.",
+          "Evaluate need for clinical testing.",
+          "Prepare for pre-submission meeting with FDA (Q-sub).",
+          "Refine manufacturing process under design transfer.",
+          "Finalize 510(k) or PMA strategy based on classification."
+        ];
       } else {
-        result = "→ You may need De Novo classification or Pre-Market Approval (PMA). Engage an FDA consultant and consider pre-submission (Q-sub) meetings.";
+        steps = [
+          "Ensure final verification and validation are complete.",
+          "Labeling must comply with FDA requirements (21 CFR Part 801).",
+          "Establish and document a quality system (QSR).",
+          "Perform final usability and human factors validation.",
+          "Submit 510(k) or PMA to FDA, as required.",
+          "Register your establishment and list the device on FURLS.",
+          "Assign a Unique Device Identifier (UDI).",
+          "Prepare for FDA inspection of manufacturing facilities.",
+          "Implement postmarket surveillance and complaint handling.",
+          "Maintain documentation for traceability and audits."
+        ];
       }
 
       document.getElementById("output").innerHTML = `
         <p><strong>Stage:</strong> ${stage}</p>
-        <p><strong>Type:</strong> ${type}</p>
-        <p><strong>Guidance:</strong></p>
-        <p>${result}</p>
+        <p><strong>Function:</strong> ${func}</p>
+        <p><strong>Estimated Classification:</strong> ${classification}</p>
+        <p><strong>Your Personalized 10-Step Plan:</strong></p>
+        <ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>
       `;
     }
   </script>
