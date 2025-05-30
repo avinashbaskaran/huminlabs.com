@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe-OSL</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    label {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #555;
+      outline: none;
+      transition: background 0.3s;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #00ffcc;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .value-display {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label for="engagementSlider">How much does audience engagement matter to you?</label>
+    <input type="range" id="engagementSlider" min="0" max="10" step="1" value="5" />
+    <div class="value-display">Current value: <span id="sliderValue">5</span></div>
+  </div>
+
+  <script>
+    const slider = document.getElementById("engagementSlider");
+    const valueDisplay = document.getElementById("sliderValue");
+
+    slider.addEventListener("input", () => {
+      valueDisplay.textContent = slider.value;
+    });
+  </script>
+</body>
+</html>
