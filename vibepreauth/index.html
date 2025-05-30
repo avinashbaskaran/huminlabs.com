@@ -11,16 +11,17 @@
       background-color: black;
       color: white;
       font-family: Arial, sans-serif;
-      overflow: hidden;
+      height: 100%;
     }
     .section {
-      height: 100vh;
+      min-height: 100vh;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 2rem;
       text-align: center;
+      overflow-y: auto;
     }
     .section.active {
       display: flex;
@@ -181,12 +182,51 @@
         ];
       }
 
+      const requirements = {
+        "Class I": [
+          "Exempt or 510(k) pathway",
+          "Establishment Registration & Listing",
+          "General Controls",
+          "Labeling compliance (21 CFR 801)",
+          "Unique Device Identifier (UDI)",
+          "Quality System Regulation (QSR) - some exemptions",
+          "Risk Management (recommended)",
+          "Postmarket surveillance reporting (MDR)"
+        ],
+        "Class II": [
+          "510(k) clearance required",
+          "Establishment Registration & Listing",
+          "Design Controls (21 CFR 820)",
+          "Labeling compliance (21 CFR 801)",
+          "Unique Device Identifier (UDI)",
+          "Risk Management (ISO 14971)",
+          "Biocompatibility Testing (if applicable)",
+          "Software Validation (if applicable)",
+          "Sterilization Validation (if sterile)",
+          "Postmarket Surveillance"
+        ],
+        "Class III": [
+          "Premarket Approval (PMA) pathway",
+          "Clinical Trials / IDE required",
+          "Establishment Registration & Listing",
+          "Design Controls (21 CFR 820)",
+          "Labeling compliance (21 CFR 801)",
+          "Unique Device Identifier (UDI)",
+          "Full Risk Management (ISO 14971)",
+          "Biocompatibility and Sterilization Validation",
+          "Postmarket Surveillance and FDA Inspections",
+          "Hospital Tech Committee and GPO inclusion"
+        ]
+      };
+
       document.getElementById("output").innerHTML = `
         <p><strong>Stage:</strong> ${stage}</p>
         <p><strong>Function:</strong> ${func}</p>
         <p><strong>Estimated Classification:</strong> ${classification}</p>
         <p><strong>Your Personalized 10-Step Plan:</strong></p>
         <ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>
+        <p><strong>Core FDA Requirements for ${classification}:</strong></p>
+        <ul>${requirements[classification].map(r => `<li>${r}</li>`).join('')}</ul>
       `;
     }
   </script>
