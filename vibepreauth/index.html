@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe-Preauth</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .section {
+      height: 100vh;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    .section.active {
+      display: flex;
+    }
+    .container {
+      max-width: 700px;
+      width: 100%;
+    }
+    button {
+      margin: 1rem 0.5rem 0 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+    }
+    .radio-group {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    .radio-group label {
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .output-box {
+      background-color: #111;
+      padding: 1rem;
+      border: 1px solid #333;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="section active" id="section0">
+    <div class="container">
+      <h1>Vibe-Preauth: Get FDA Ready</h1>
+      <p>Let’s figure out the certification pathway for your healthware project.</p>
+      <button onclick="goTo(1)">Start</button>
+    </div>
+  </div>
+
+  <div class="section" id="section1">
+    <div class="container">
+      <h2>What stage is your project at?</h2>
+      <div class="radio-group">
+        <label><input type="radio" name="stage" value="proposed" onchange="enableNext()"> Proposed</label>
+        <label><input type="radio" name="stage" value="inprogress" onchange="enableNext()"> In Progress</label>
+        <label><input type="radio" name="stage" value="completed" onchange="enableNext()"> Completed</label>
+      </div>
+      <button id="next1" onclick="goTo(2)" disabled>Next</button>
+    </div>
+  </div>
+
+  <div class="section" id="section2">
+    <div class="container">
+      <h2>Is your device intended for human use?</h2>
+      <div class="radio-group">
+        <label><input type="radio" name="humanUse" value="yes" onchange="enableNext()"> Yes</label>
+        <label><input type="radio" name="humanUse" value="no" onchange="enableNext()"> No</label>
+      </div>
+      <button id="next2" onclick="goTo(3)" disabled>Next</button>
+      <button onclick="goTo(1)">Previous</button>
+    </div>
+  </div>
+
+  <div class="section" id="section3">
+    <div class="container">
+      <h2>Is your device therapeutic, diagnostic, or assistive?</h2>
+      <div class="radio-group">
+        <label><input type="radio" name="type" value="therapeutic" onchange="enableNext()"> Therapeutic</label>
+        <label><input type="radio" name="type" value="diagnostic" onchange="enableNext()"> Diagnostic</label>
+        <label><input type="radio" name="type" value="assistive" onchange="enableNext()"> Assistive</label>
+      </div>
+      <button id="next3" onclick="goTo(4)" disabled>Next</button>
+      <button onclick="goTo(2)">Previous</button>
+    </div>
+  </div>
+
+  <div class="section" id="section4">
+    <div class="container">
+      <h2>Is there an FDA-registered predicate device that performs a similar function?</h2>
+      <div class="radio-group">
+        <label><input type="radio" name="predicate" value="yes" onchange="enableNext()"> Yes</label>
+        <label><input type="radio" name="predicate" value="no" onchange="enableNext()"> No</label>
+        <label><input type="radio" name="predicate" value="idk" onchange="enableNext()"> Don't Know</label>
+      </div>
+      <button id="next4" onclick="goTo(5)" disabled>Next</button>
+      <button onclick="goTo(3)">Previous</button>
+    </div>
+  </div>
+
+  <div class="section" id="section5">
+    <div class="container">
+      <h2>Your Preauthorization Path</h2>
+      <div class="output-box" id="output"></div>
+      <button onclick="goTo(1)">Revise Responses</button>
+    </div>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll(".section");
+    let currentIndex = 0;
+
+    function goTo(index) {
+      sections[currentIndex].classList.remove("active");
+      sections[index].classList.add("active");
+      currentIndex = index;
+
+      if (index === 5) displayOutput();
+    }
+
+    function enableNext() {
+      const current = sections[currentIndex];
+      const button = current.querySelector("button[id^='next']");
+      if (button) button.disabled = false;
+    }
+
+    function displayOutput() {
+      const stage = document.querySelector("input[name='stage']:checked")?.value;
+      const humanUse = document.querySelector("input[name='humanUse']:checked")?.value;
+      const type = document.querySelector("input[name='type']:checked")?.value;
+      const predicate = document.querySelector("input[name='predicate']:checked")?.value;
+
+      let result = "";
+      if (humanUse === "no") {
+        result = "→ You may not require FDA certification if the device is not intended for human use. Still consider good design practices and ethical review.";
+      } else if (predicate === "yes") {
+        result = "→ Consider pursuing a 510(k) clearance by identifying the predicate device and demonstrating substantial equivalence.";
+      } else {
+        result = "→ You may need De Novo classification or Pre-Market Approval (PMA). Engage an FDA consultant and consider pre-submission (Q-sub) meetings.";
+      }
+
+      document.getElementById("output").innerHTML = `
+        <p><strong>Stage:</strong> ${stage}</p>
+        <p><strong>Type:</strong> ${type}</p>
+        <p><strong>Guidance:</strong></p>
+        <p>${result}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
