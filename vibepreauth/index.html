@@ -123,7 +123,8 @@
         We can help you get started on these steps! Click <em> Help Getting Started </em> below.
         </p>
       <button onclick="goTo(1)">Start Over</button>
-      <a href="gettingstarted.html"><button>Help Getting Started</button></a>
+      <button onclick="redirectToGettingStarted()">Help Getting Started</button>
+
     </div>
   </div>
 
@@ -240,6 +241,22 @@
         <ul>${requirements[classification].map(r => `<li>${r}</li>`).join('')}</ul>
       `;
     }
+    function redirectToGettingStarted() {
+  const stage = document.querySelector("input[name='stage']:checked")?.value;
+  const func = document.querySelector("input[name='function']:checked")?.value;
+  const risk = document.querySelector("input[name='risk']:checked")?.value;
+  const classification = risk === "low" ? "Class I" : risk === "moderate" ? "Class II" : "Class III";
+
+  const params = new URLSearchParams({
+    stage: stage || "",
+    function: func || "",
+    risk: risk || "",
+    classification: classification
+  });
+
+  window.location.href = "gettingstarted.html?" + params.toString();
+}
+
   </script>
 </body>
 </html>

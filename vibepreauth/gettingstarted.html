@@ -3,243 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vibe-Preauth</title>
+  <title>Getting Started Summary</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
+    body {
       background-color: black;
       color: white;
       font-family: Arial, sans-serif;
-      height: 100%;
-    }
-    .section {
-      min-height: 100vh;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       padding: 2rem;
-      text-align: center;
-      overflow-y: auto;
     }
-    .section.active {
-      display: flex;
-    }
-    .container {
-      max-width: 700px;
-      width: 100%;
-    }
-    button {
-      margin: 1rem 0.5rem 0 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      background-color: #00ffcc;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: black;
-    }
-    .radio-group {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-    .radio-group label {
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-    .output-box {
+    .summary-box {
       background-color: #111;
-      padding: 1rem;
+      padding: 1.5rem;
       border: 1px solid #333;
-      margin-top: 1rem;
-      text-align: left;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    p {
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
-  <div class="section active" id="section0">
-    <div class="container">
-      <h1>Vibe-Preauth: Your Free FDA Pre-Consult</h1>
-      <p>Answer a few questions to get a tailored 10-step FDA preparation roadmap for your project.</p>
-        <p style="font-size: 0.7em;"> <em>
-        Nothing on this site constitutes legal, regulatory, or clinical advice. You are solely responsible for verifying all 
-        regulatory requirements and consulting with qualified professionals, including legal counsel and regulatory experts, 
-        before taking action based on any output provided here. The developers of this tool assume no liability for errors, 
-        omissions, or outcomes resulting from its use. Use at your own risk. This project is made available under the MIT License, permitting reuse 
-        with attribution and without warranty.</em></p>
-
-      <button onclick="goTo(1)">Get Started</button>
-    </div>
-  </div>
-
-  <div class="section" id="section1">
-    <div class="container">
-      <h2>What is your project stage?</h2>
-      <div class="radio-group">
-        <label><input type="radio" name="stage" value="proposed" onchange="enableNext()"> Proposed</label>
-        <label><input type="radio" name="stage" value="inprogress" onchange="enableNext()"> In Progress</label>
-        <label><input type="radio" name="stage" value="completed" onchange="enableNext()"> Completed</label>
-      </div>
-      <button id="next1" onclick="goTo(2)" disabled>Next</button>
-    </div>
-  </div>
-
-  <div class="section" id="section2">
-    <div class="container">
-      <h2>What is the device's function?</h2>
-      <div class="radio-group">
-        <label><input type="radio" name="function" value="monitor" onchange="enableNext()"> Monitor/Vital Signs</label>
-        <label><input type="radio" name="function" value="diagnose" onchange="enableNext()"> Diagnose/Analyze</label>
-        <label><input type="radio" name="function" value="treat" onchange="enableNext()"> Treat/Intervene</label>
-        <label><input type="radio" name="function" value="assist" onchange="enableNext()"> Assist/Support</label>
-      </div>
-      <button id="next2" onclick="goTo(3)" disabled>Next</button>
-      <button onclick="goTo(1)">Previous</button>
-    </div>
-  </div>
-
-  <div class="section" id="section3">
-    <div class="container">
-      <h2>How risky is the use of this device?</h2>
-      <div class="radio-group">
-        <label><input type="radio" name="risk" value="low" onchange="enableNext()"> Low (non-invasive, over-the-counter)</label>
-        <label><input type="radio" name="risk" value="moderate" onchange="enableNext()"> Moderate (requires physician use)</label>
-        <label><input type="radio" name="risk" value="high" onchange="enableNext()"> High (life support, implants)</label>
-      </div>
-      <button id="next3" onclick="goTo(4)" disabled>Next</button>
-      <button onclick="goTo(2)">Previous</button>
-    </div>
-  </div>
-
-  <div class="section" id="section4">
-    <div class="container">
-      <h2>Your 10-Step FDA Plan</h2>
-      <div class="output-box" id="output"></div>
-      <p> 
-        We can help you get started on these steps! Click <em> Help Getting Started </em> below.
-        </p>
-      <button onclick="goTo(1)">Start Over</button>
-      <a href="vibepreauth-gettingstarted.html"><button>Help Getting Started</button></a>
-    </div>
+  <h1>Getting Started</h1>
+  <div class="summary-box">
+    <h2>Your Device Summary</h2>
+    <p><strong>Stage:</strong> <span id="stage"></span></p>
+    <p><strong>Function:</strong> <span id="function"></span></p>
+    <p><strong>Risk Level:</strong> <span id="risk"></span></p>
+    <p><strong>Estimated Classification:</strong> <span id="classification"></span></p>
   </div>
 
   <script>
-    const sections = document.querySelectorAll(".section");
-    let currentIndex = 0;
-
-    function goTo(index) {
-      sections[currentIndex].classList.remove("active");
-      sections[index].classList.add("active");
-      currentIndex = index;
-      if (index === 4) displayOutput();
+    function getParam(key) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(key) || 'Not provided';
     }
 
-    function enableNext() {
-      const current = sections[currentIndex];
-      const button = current.querySelector("button[id^='next']");
-      if (button) button.disabled = false;
-    }
-
-    function displayOutput() {
-      const stage = document.querySelector("input[name='stage']:checked")?.value;
-      const func = document.querySelector("input[name='function']:checked")?.value;
-      const risk = document.querySelector("input[name='risk']:checked")?.value;
-
-      let classification = risk === "low" ? "Class I" : risk === "moderate" ? "Class II" : "Class III";
-      let steps = [];
-
-      if (stage === "proposed") {
-        steps = [
-          "Define the intended use and indications for use.",
-          "Research potential predicate devices.",
-          "Estimate device classification (" + classification + ").",
-          "Begin preliminary risk analysis.",
-          "Sketch design concept and assess key components.",
-          "Check if the device may qualify for exemptions.",
-          "Prepare initial project plan with regulatory milestones.",
-          "Document user needs and environment of use.",
-          "Initiate usability and human factors design considerations.",
-          "Consult FDA resources or request a Q-submission meeting."
-        ];
-      } else if (stage === "inprogress") {
-        steps = [
-          "Complete detailed design documentation and design history file (DHF).",
-          "Perform risk management per ISO 14971.",
-          "Conduct bench and verification testing.",
-          "Draft instructions for use and preliminary labeling.",
-          "Set up design controls and traceability matrix.",
-          "Begin identifying regulatory submission content.",
-          "Evaluate need for clinical testing.",
-          "Prepare for pre-submission meeting with FDA (Q-sub).",
-          "Refine manufacturing process under design transfer.",
-          "Finalize 510(k) or PMA strategy based on classification."
-        ];
-      } else {
-        steps = [
-          "Ensure final verification and validation are complete.",
-          "Labeling must comply with FDA requirements (21 CFR Part 801).",
-          "Establish and document a quality system (QSR).",
-          "Perform final usability and human factors validation.",
-          "Submit 510(k) or PMA to FDA, as required.",
-          "Register your establishment and list the device on FURLS.",
-          "Assign a Unique Device Identifier (UDI).",
-          "Prepare for FDA inspection of manufacturing facilities.",
-          "Implement postmarket surveillance and complaint handling.",
-          "Maintain documentation for traceability and audits."
-        ];
-      }
-
-      const requirements = {
-        "Class I": [
-          "Exempt or 510(k) pathway",
-          "Establishment Registration & Listing",
-          "General Controls",
-          "Labeling compliance (21 CFR 801)",
-          "Unique Device Identifier (UDI)",
-          "Quality System Regulation (QSR) - some exemptions",
-          "Risk Management (recommended)",
-          "Postmarket surveillance reporting (MDR)"
-        ],
-        "Class II": [
-          "510(k) clearance required",
-          "Establishment Registration & Listing",
-          "Design Controls (21 CFR 820)",
-          "Labeling compliance (21 CFR 801)",
-          "Unique Device Identifier (UDI)",
-          "Risk Management (ISO 14971)",
-          "Biocompatibility Testing (if applicable)",
-          "Software Validation (if applicable)",
-          "Sterilization Validation (if sterile)",
-          "Postmarket Surveillance"
-        ],
-        "Class III": [
-          "Premarket Approval (PMA) pathway",
-          "Clinical Trials / IDE required",
-          "Establishment Registration & Listing",
-          "Design Controls (21 CFR 820)",
-          "Labeling compliance (21 CFR 801)",
-          "Unique Device Identifier (UDI)",
-          "Full Risk Management (ISO 14971)",
-          "Biocompatibility and Sterilization Validation",
-          "Postmarket Surveillance and FDA Inspections",
-          "Hospital Tech Committee and GPO inclusion"
-        ]
-      };
-
-      document.getElementById("output").innerHTML = `
-        <p><strong>Stage:</strong> ${stage}</p>
-        <p><strong>Function:</strong> ${func}</p>
-        <p><strong>Estimated Classification:</strong> ${classification}</p>
-        <p><strong>Your Personalized 10-Step Plan:</strong></p>
-        <ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>
-        <p><strong>Core FDA Requirements for ${classification}:</strong></p>
-        <ul>${requirements[classification].map(r => `<li>${r}</li>`).join('')}</ul>
-      `;
-    }
+    document.getElementById("stage").textContent = getParam("stage");
+    document.getElementById("function").textContent = getParam("function");
+    document.getElementById("risk").textContent = getParam("risk");
+    document.getElementById("classification").textContent = getParam("classification");
   </script>
 </body>
 </html>
