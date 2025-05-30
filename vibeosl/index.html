@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vibe-OSL</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background-color: #000;
-      color: #fff;
+      padding: 0;
+      background-color: black;
+      color: white;
       font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevent native scroll */
+    }
+
+    .section {
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      scroll-snap-align: start;
     }
 
     .container {
@@ -23,20 +29,12 @@
       text-align: center;
     }
 
-    label {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
     input[type=range] {
-      -webkit-appearance: none;
       width: 100%;
       height: 8px;
       border-radius: 5px;
       background: #555;
       outline: none;
-      transition: background 0.3s;
     }
 
     input[type=range]::-webkit-slider-thumb {
@@ -54,13 +52,75 @@
       font-size: 1.2rem;
       color: #00ffcc;
     }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00ddbb;
+    }
+
+    input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #555;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #00ffcc;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  margin-top: -6px; /* aligns thumb vertically */
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #00ffcc;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <label for="engagementSlider">How much does audience engagement matter to you?</label>
-    <input type="range" id="engagementSlider" min="0" max="10" step="1" value="5" />
-    <div class="value-display">Current value: <span id="sliderValue">5</span></div>
+
+  <!-- Section 1 -->
+  <div class="section" id="section1">
+    <div class="container">
+      <label for="engagementSlider">How much does audience engagement matter to you?</label>
+      <input type="range" id="engagementSlider" min="0" max="10" step="1" value="5" />
+      <div class="value-display">Current value: <span id="sliderValue">5</span></div>
+      <button onclick="scrollToSection('section2')">Next</button>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section" id="section2">
+    <div class="container">
+      <h2>Next Section Placeholder</h2>
+      <p>This is where the next set of inputs or content would go.</p>
+      <button onclick="scrollToSection('section1')">Previous</button>
+    </div>
   </div>
 
   <script>
@@ -70,6 +130,20 @@
     slider.addEventListener("input", () => {
       valueDisplay.textContent = slider.value;
     });
+
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Disable mouse and touch scrolling
+    window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+    window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    window.addEventListener('keydown', e => {
+      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
   </script>
+
 </body>
 </html>
