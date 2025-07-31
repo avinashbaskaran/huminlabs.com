@@ -82,14 +82,17 @@
 
     /* Shrink all when any is hovered */
     body[data-hover] .humin-column {
-      flex: 0.;
+      flex: 0.8;
     }
 
     /* Grow hovered column */
     body[data-hover="col1"] .humin-column[data-id="col1"],
     body[data-hover="col2"] .humin-column[data-id="col2"],
-    body[data-hover="col3"] .humin-column[data-id="col3"] {
-      flex: 1.;
+    body[data-hover="col3"] .humin-column[data-id="col3"],
+    body[data-hover="col4"] .humin-column[data-id="col4"],
+    body[data-hover="col5"] .humin-column[data-id="col5"],
+    body[data-hover="col6"] .humin-column[data-id="col6"] {
+      flex: 1.6;
       background-color: #ca5c49;
     }
 
@@ -123,34 +126,36 @@
   <div class="container">
     <div class="header">
       <img src="Assets/Graphics/logo.svg" alt="Humin Labs Logo" />
-      <h1>HUMIN LABS LLC</h1>
+      <h1>Open Source Tooling for Teachers and Educators</h1>
     </div>
-    <p>Get Help Implementing Open Source Solutions.</p>
-    <p>Find services, offerings, and resources tailored to your needs:</p>
+    <h2>Educational platforms:</h2>
   </div>
 
   <div class="humin-columns">
     <div class="humin-column" data-id="col1">
-      <h2>Organizations</h2>
-      <a href="Pages/Organizations/Companies/Companies.html" class="hover-link" target="_blank"><p>Companies</p></a>
-      <a href="Pages/Organizations/Schools_and_Universities/Schools_and_Universities.html" class="hover-link" target="_blank"><p>Schools & Universities</p></a>
-      <a href="Pages/Organizations/Nonprofits_and_NGOs/Nonprofits_and_NGOs.html" class="hover-link" target="_blank"><p>Non-profits & NGOs</p></a>
+      <h2>Haptic Block</h2>
     </div>
     <div class="humin-column" data-id="col2">
-      <h2>Individuals</h2>
-      <a href="Pages/Individuals//Makers_and_Engineers/Makers_and_Engineers.html" class="hover-link" target="_blank"><p>Makers & Engineers</p></a>
-      <a href="Pages/Individuals/Teachers_and_Educators/Teachers_and_Educators.html" class="hover-link" target="_blank"><p>Teachers & Educators</p></a>
-      <a href="Pages/Individuals/Students_and_Learners/" class="hover-link" target="_blank"><p>Students & Learners</p></a>
+      <h2>Smart-scope</h2>
     </div>
     <div class="humin-column" data-id="col3">
-      <h2>Partners</h2>
-      <a href="Pages/Partners/Funders/Funders.html" class="hover-link" target="_blank"><p>Funders</p></a>
-      <a href="Pages/Partners/Media/Media.html" class="hover-link" target="_blank"><p>Media </p></a>
-      <a href="Pages/Partners/Policymakers/Policymakers.html" class="hover-link" target="_blank"><p>Policymakers</p></a>
+      <h2>Chain of Thought </h2>
     </div>
   </div>
+  
+  <div class="container">
+    <h2>Trainings and Resources:</h2>
+    <p>Navigating Open Source</p>
+</div>
 
-  <p class="cta">Reach out directly:</p>
+  <div class="container">
+    <h2>Request A Personal Consultation:</h2>
+    <p>Questions about pricing, sourcing, or making?</p>
+    <p>Questions about pricing, sourcing, or making?</p>
+</div>
+
+
+<p class="cta">Reach out directly:</p>
 
 
   <script>
