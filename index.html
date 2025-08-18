@@ -82,14 +82,17 @@
 
     /* Shrink all when any is hovered */
     body[data-hover] .humin-column {
-      flex: 0.;
+      flex: 0.8;
     }
 
     /* Grow hovered column */
     body[data-hover="col1"] .humin-column[data-id="col1"],
     body[data-hover="col2"] .humin-column[data-id="col2"],
-    body[data-hover="col3"] .humin-column[data-id="col3"] {
-      flex: 1.;
+    body[data-hover="col3"] .humin-column[data-id="col3"],
+    body[data-hover="col4"] .humin-column[data-id="col4"],
+    body[data-hover="col5"] .humin-column[data-id="col5"],
+    body[data-hover="col6"] .humin-column[data-id="col6"] {
+      flex: 1.6;
       background-color: #ca5c49;
     }
 
@@ -148,6 +151,7 @@
       <a href="Pages/Partners/Media/Media.html" class="hover-link" target="_blank"><p>Media </p></a>
       <a href="Pages/Partners/Policymakers/Policymakers.html" class="hover-link" target="_blank"><p>Policymakers</p></a>
     </div>
+
   </div>
 
   <p class="cta">Reach out directly:</p>
