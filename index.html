@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="css/style.css">
+    
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Humin Labs</title>
-  
+
+    <style>
+        body {
+            height: 300vh; /* Create scrollable content */
+            margin: 0vh;
+            font-family: sans-serif;
+            background-color: #f4f1de;
+        }
+        
+        .header-element {
+            position: fixed; /* Or absolute, depending on desired behavior */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f4f1de;
+            color: e07a5f;
+            padding: 20px;
+            text-align: center;
+            transition: opacity 0.1s ease-out; /* Smooth transition for opacity changes */
+        }
+    </style>
+
   <style>
-    @font-face {
-      font-family: 'Aristotelica';
-      src: url('fonts/Aristotelica-Text-Bold-trial.ttf') format('truetype');
-      font-weight: bold;
-      font-style: normal;
-    }
 
     body {
       margin: 0;
@@ -22,29 +39,58 @@
     }
 
     .container {
-      text-align: center;
+      text-align: left;
       padding: 2em;
+      position: relative;
     }
 
     .header {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1em;
+        position: fixed;
+        top: 0; /* Positions the banner at the top of the viewport */
+        left: 0; /* Positions the banner at the left of the viewport */
+        width: 100%; /* Makes the banner span the full width */
+        background-color: #e07a5f; /* Example background color */
+        color: #f4f1de; /* Example text color */
+        padding: 10px; /* Example padding */
+        text-align: left; /* Centers the text */
+        z-index: 1000; /* Ensures it stays on top of other content */
     }
-
     .header img {
-      height: 100px;
+      height: 60px;
       width: auto;
       margin-right: 12px;
       vertical-align: middle;
     }
 
     .header h1 {
-      font-size: 2em;
+      font-size: 40px;
       margin: 0;
       display: inline;
+      vertical-align: bottom;
+      text-align:  center;
     }
+
+    .splash {
+      display: inline-flex;
+      margin-top: 70px; /* Adjust this value as needed for proper spacing */
+    }
+
+    .splash img {
+      height: 420px;
+      width: auto;
+      margin-right: 100px;
+      vertical-align: middle;
+    }
+
+    .splash h1 {
+      font-size:50px;
+      margin: 0;
+      display: inline;
+      vertical-align: bottom;
+      text-align:  center;
+    }
+
+    
 
     p {
       font-size: 1.2em;
@@ -63,8 +109,8 @@
     .humin-columns {
       display: flex;
       width: 100%;
-      height: 50    vh;
       overflow: hidden;
+      margin-top: 360px;
     }
 
     .humin-column {
@@ -78,6 +124,8 @@
       font-size: 1.1em;
       font-weight: bold;
       background-color: #e07a5f;
+      border-color: black;
+      border-radius: 100px;
       color: #f4f1de;
       cursor: pointer;
       text-align: center;
@@ -103,6 +151,7 @@
     body[data-hover="col6"] .humin-column[data-id="col6"] {
       flex: 1.6;
       background-color: #ca5c49;
+      color: #f4f1de;
     }
 
     .cta {
@@ -131,40 +180,46 @@
 </head>
 
 <body>
-
-  <div class="container">
+<div class="container">
     <div class="header">
-      <img src="Assets/Graphics/logo.svg" alt="Humin Labs Logo" />
-      <h1>HUMIN LABS LLC</h1>
-    </div>
-    <p>Get Help Implementing Open Source Solutions.</p>
-    <p>Find services, offerings, and resources tailored to your needs:</p>
+      <img src="Assets/Graphics/logo_light.svg" alt="Humin Labs Logo" />
+      <h1>HUMIN LABS</h1>
   </div>
+</div>
 
+<div class="container">
+    <div id="fade-element" class="header-element">
+
+    <div class="splash">
+      <div class="container">
+      <h1>Open-Source Solutions 
+        To Meet <i><u>Every</u></i> Challenge
+      </h1> <br><br><br>
+      <p>
+        Find: Low-Cost, Repairable,
+        Customizable, Compatible, Beginner-Friendly,
+        Well-Documented, Globally Recognized,
+      </p>
+</div>
+      <img src="Assets/Graphics/Humin_labs_DS.svg" alt="Humin Labs Logo"/>
+  </div>
+</div>
+</div>
+
+<div class="container">
   <div class="humin-columns">
     <div class="humin-column" data-id="col1">
-      <h2>Organizations</h2>
-      <a href="Pages/Organizations/Companies/Companies.html" class="hover-link" target="_blank"><p>Companies</p></a>
-      <a href="Pages/Organizations/Schools_and_Universities/Schools_and_Universities.html" class="hover-link" target="_blank"><p>Schools & Universities</p></a>
-      <a href="Pages/Organizations/Nonprofits_and_NGOs/Nonprofits_and_NGOs.html" class="hover-link" target="_blank"><p>Non-profits & NGOs</p></a>
+      <h2> Shop and Discover <br> Curated Solutions</h2>
     </div>
     <div class="humin-column" data-id="col2">
-      <h2>Individuals</h2>
-      <a href="Pages/Individuals//Makers_and_Engineers/Makers_and_Engineers.html" class="hover-link" target="_blank"><p>Makers & Engineers</p></a>
-      <a href="Pages/Individuals/Teachers_and_Educators/Teachers_and_Educators.html" class="hover-link" target="_blank"><p>Teachers & Educators</p></a>
-      <a href="Pages/Individuals/Students_and_Learners/" class="hover-link" target="_blank"><p>Students & Learners</p></a>
+      <h2> Get Expert Help <br> With Implementation </h2>
+      
     </div>
     <div class="humin-column" data-id="col3">
-      <h2>Partners</h2>
-      <a href="Pages/Partners/Funders/Funders.html" class="hover-link" target="_blank"><p>Funders</p></a>
-      <a href="Pages/Partners/Media/Media.html" class="hover-link" target="_blank"><p>Media </p></a>
-      <a href="Pages/Partners/Policymakers/Policymakers.html" class="hover-link" target="_blank"><p>Policymakers</p></a>
+      <h2> Access Documentation, <br> Community, & Support</h2>
     </div>
-
   </div>
-
-  <p class="cta">Reach out directly:</p>
-
+  </div>
 
   <script>
     document.querySelectorAll('.humin-column').forEach(col => {
@@ -176,5 +231,36 @@
       });
     });
   </script>
+
+    <script>
+        const fadeElement = document.getElementById('fade-element');
+        const elementHeight = fadeElement.offsetHeight; // Get the initial height of the element
+
+        function handleScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            let opacity = 1;
+
+            // Adjust opacity based on how far the top of the element has scrolled past the top of the viewport
+            if (scrollTop > 0) {
+                opacity = 1 - 2*(scrollTop / elementHeight); // Fade out as it scrolls away
+            }
+
+            // Ensure opacity stays within 0 and 1
+            if (opacity < 0) {
+                opacity = 0;
+            } else if (opacity > 1) {
+                opacity = 1;
+            }
+
+            fadeElement.style.opacity = opacity;
+        }
+
+        // Attach the scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Call once on load to set initial state if scrolled
+        handleScroll();
+    </script>
+  
 </body>
 </html>
