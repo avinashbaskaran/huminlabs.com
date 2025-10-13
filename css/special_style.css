@@ -9,34 +9,6 @@ body {
   overflow-x: hidden; /* Prevent horizontal bleed */
 }
 
-/* ===== HEADER ===== */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #e07a5f;
-  color: #f4f1de;
-  padding: 10px;
-  text-align: left;
-  z-index: 1000;
-}
-
-.header img {
-  height: 60px;
-  width: auto;
-  margin-right: 12px;
-  vertical-align: middle;
-}
-
-.header h1 {
-  font-size: 40px;
-  margin: 0;
-  display: inline;
-  vertical-align: bottom;
-  text-align: center;
-}
-
 /* ===== GENERAL TEXT ===== */
 p {
   font-size: 1.2em;
@@ -99,27 +71,40 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
 }
 
 /* ===== HERO SPLASH SECTION ===== */
-.splash {
-  width: 100vw;
-  height: 70vh;
+/* .splash {
+  width: 80vw;
+  height: 100%;
   background-color: #f4f1de;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
   box-sizing: border-box;
   overflow: hidden;
-  margin-top: 1%;
+  margin-left: 5vw;
+
+} */
+
+
+/* Fullscreen section */
+.splash {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: relative;
+  align-items: center;
+  justify-content: center;
+  background: #faf8f5;
+  overflow: hidden;
 }
 
 .splash-content {
-  max-width: 80%;
+  max-width: 100%;
   color: #e07a5f;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .splash-content h2 {
@@ -129,11 +114,15 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
 }
 
 .splash-content h1 {
-  font-size: 5vw;
-  margin: 0.2em 0 1.5em 0;
+  font-size: 7vw;
+  margin: 0.0em 0 0.0em 0;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1;
+  padding: 10px;
+  align-items: center;
 }
+
+
 
 /* ===== SCROLLING BANNER ===== */
 .scroll-banner {
@@ -482,7 +471,7 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
   /* Center pivot */
   .pivot {
     position: absolute;
-    bottom: -20%;
+    bottom: 20%;
     left: 50%;
     width: 10px;
     height: 60px;
@@ -494,7 +483,7 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
   /* Rod that tilts */
   .beam {
     position: absolute;
-    bottom: calc(-10%);
+    bottom: calc(20% + 55px);
     left: 50%;
     width: 50vw;
     height: 10px;
@@ -534,7 +523,7 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
   /* Fading text */
   .label {
     position: absolute;
-    bottom: calc(-50% + 140px);
+    bottom: calc(20% + 140px);
     width: 30%;
     font-size: 1.5em;
     font-weight: 600;
@@ -553,49 +542,61 @@ body[data-hover="col6"] .humin-column[data-id="col6"] {
     opacity: 1;
     color: #b44f3f;
   }
-/* ===== STATISTICS GRID ===== */
-.stats-grid {
+
+  #changing-word {
+  display: inline-block;
+  background-color: #b44f3f;
+  color: #f4f1de;
+  opacity: .5;
+  transition: opacity .1s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+
+
+/* ════════════════════════════════════════════
+   FEATURE BOXES
+═════════════════════════════════════════════ */
+.container.feature-row {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  gap: 2rem;
-  padding: 3rem 2rem;
-  background-color: #f4f1de;
-  color: #3d405b;
-  text-align: left;
+  justify-content: center;
+  gap: 3vw;
+  flex-wrap: wrap;
 }
 
-.stat-column {
-  flex: 1;
-  max-width: 380px;
-  background: #fff;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.stat-column h3 {
-  font-size: 1.5em;
-  color: #e07a5f;
-  margin-bottom: 1rem;
+.container.title {
+  margin-bottom: 10vh;
   text-align: center;
 }
 
-.stat-column ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.mainbox {
+  background: #e07a5f;
+  color: #fff;
+  padding: 2vw 3vw;
+  border-radius: 0.8vw;
+  text-align: center;
+  font-size: 2vw;
+  text-decoration: none;
+  width: 22vw;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.3);
 }
 
-.stat-column li {
-  margin-bottom: 1.2rem;
-  line-height: 1.5;
-  font-size: 1em;
-  border-left: 4px solid #e07a5f;
-  padding-left: 0.75rem;
+.mainbox:hover {
+  background: #b44f3f;
+  transform: translateY(-0.5vw);
 }
 
-.stat-column em {
-  font-size: 0.9em;
-  color: #777;
+/* ════════════════════════════════════════════
+   RESPONSIVE
+═════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .mainbox {
+    width: 70vw;
+    font-size: 3.5vw;
+  }
+
 }
